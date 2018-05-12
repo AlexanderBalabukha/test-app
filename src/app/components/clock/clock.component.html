@@ -1,0 +1,11 @@
+<div   id="cont" class="cont">
+  <div class="hours" [ngStyle]="{'transform':hstyle}"></div>
+  <div class="minutes" [style.transform]="mstyle"></div>
+  <div class="second" [style.transform]="sstyle"></div>
+  <div *ngFor="let i of fakeArray(12); let index = index">
+    <div class="number" [ngStyle]="{'transform':'rotate('+((index+1)*30-90)+ 'deg) translate(280px) rotate('+(90-(index+1)*30)+'deg)'}">{{index+1}}</div>
+  </div>
+  <div *ngFor="let i of fakeArray(60); let index = index">
+    <div class="dash" [ngStyle]="{'height':index%5==0?'30px':'20px','transform':'rotate('+6*index+'deg)'}"></div>
+  </div>
+</div>

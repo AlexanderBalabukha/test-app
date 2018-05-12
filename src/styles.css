@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+.focus_up{
+  position: fixed;
+  top:0;
+  right: 0;
+  width: 60px;
+  height: 20px;
+  text-align: right;
+  z-index: 33;
+  background-color: red;
+  cursor: pointer;
+}
+.up:after{
+  content: "\25b2";
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}

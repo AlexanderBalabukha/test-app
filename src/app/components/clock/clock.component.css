@@ -1,0 +1,59 @@
+.cont{
+  position: relative;
+  margin: 50px;
+  left:250px;
+  width: 500px;
+  height: 500px;
+  border: 3px solid #660066;
+  border-radius: 250px;
+}
+.dash{
+  position: absolute;
+  top:0px;
+  left:250px;
+  width: 1px;
+  height: 20px;
+  background-color: black;
+  transform-origin: 0 250px;
+}
+.second{
+  position: absolute;
+  top:0px;
+  left: 250px;
+  width: 1px;
+  height: 290px;
+  background-color: red;
+  transform-origin: 0 250px;
+}
+.minutes{
+  position: absolute;
+  top:10px;
+  left: 249px;
+  width: 3px;
+  height: 280px;
+  background-color: black;
+  transform-origin: 1px 240px;
+}
+.hours{
+  position: absolute;
+  top:60px;
+  left: 247px;
+  width: 6px;
+  height: 230px;
+  background-color: black;
+  transform-origin: 3px 190px;
+}
+.number{
+  position: absolute;
+  top:230px;
+  left:230px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  color: red;
+  font-size: 30px;
+  font-family: "Comic Sans MS";
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+}

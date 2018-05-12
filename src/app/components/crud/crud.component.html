@@ -1,0 +1,28 @@
+<div>
+  <table class="highlight">
+    <tr>
+      <th *ngFor="let el of objectKeys(user);">{{el}}</th>
+      <th colspan="2"><button class="waves-effect waves-light btn-large right" (click)="create()">New</button></th>
+    </tr>
+    <tr>
+      <td><input [(ngModel)]="user.Name"/></td>
+      <td><input [(ngModel)]="user.Email"/></td>
+      <td><input [(ngModel)]="user.Address"></td>
+      <td><input [(ngModel)]="user['Phone number']"></td>
+      <td>Filters</td>
+      <td colspan="2"></td>
+    </tr>
+    <tr *ngFor="let el of users | filter:user; let i=index">
+        <td><input [disabled]="edit[i]" [(ngModel)]="el.Name"/></td>
+        <td><input [disabled]="edit[i]" [(ngModel)]="el.Email"/></td>
+        <td><input [disabled]="edit[i]" [(ngModel)]="el.Address"></td>
+        <td><input [disabled]="edit[i]" [(ngModel)]="el['Phone number']"></td>
+        <td *ngIf="!edit[i]"><input  [disabled]="edit[i]" [(ngModel)]="el['Image URL']"></td>
+        <td *ngIf="edit[i]"><img src="{{el['Image URL']}}"></td>
+      <td *ngIf="edit[i]"><button class="waves-effect waves-light btn-large right " (click)="update(i)">Update</button></td>
+      <td *ngIf="!edit[i]"><button class="waves-effect waves-light btn-large right" (click)="save(i)">Save</button></td>
+        <td><button class="waves-effect waves-light btn-large right" (click)="delete(i)">Delete</button>
+      </td>
+    </tr>
+  </table>
+</div>

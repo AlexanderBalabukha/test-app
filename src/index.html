@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TestApp</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/regular.js" integrity="sha384-6XNKyHeL6pEPXURVNSKQ0lUP80a5FHqN0oFqSSS8Qviyy2u0KmCMJlQ5iLiAAPBg" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/fontawesome.js" integrity="sha384-6AOxTjzzZLvbTJayrLOYweuPckqh0rrB4Sj+Js8Vzgr85/qm2e0DRqi+rBzyK52J" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <app-root></app-root>
+  <div id="up" class="focus_up up" style="display: none">Up</div>
+  <script>
+    $(".focus_up").on('click',function(e) {
+      e.preventDefault();
+      $("html,body").animate({
+        scrollTop: 0
+      }, 400)
+    });
+    $(document).on('scroll',function() {
+      var display = $('div.focus_up').css("display");
+      if ($(window).scrollTop() > ($(window).height())) {
+        if (display == "none") $("div.focus_up").css("display", "block")
+      } else if (display == "block") $("div.focus_up").css("display", "none")
+    });
+  </script>
+</body>
+</html>

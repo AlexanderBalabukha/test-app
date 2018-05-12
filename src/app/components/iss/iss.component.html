@@ -1,0 +1,31 @@
+<div class="row">
+<div class="col s10">
+  <h4 *ngIf=!place>When can I see the ISS (International Space Station)?</h4>
+  <h4 *ngIf=place>The next 10 passes of the International Space Station over {{places[place].city}}</h4>
+</div>
+<div class="input-field col s2">
+  <select [(ngModel)]=place (change)="setPlace()" materialize="material_select">
+    <option value="">Select Option</option>
+    <option *ngFor="let val of places; let i=index" value={{i}}>{{val.city}}</option>
+  </select>
+</div>
+</div>
+<div class="container">
+  <img class="col s10" *ngIf=!place id="image" src="https://upload.wikimedia.org/wikipedia/commons/0/04/International_Space_Station_after_undocking_of_STS-132.jpg">
+  <table class="highlight col s6" *ngIf=place>
+    <thead>
+    <tr>
+      <td *ngFor="let val of headers">{{val}}</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let val of issRise">
+      <td>{{val['risetime']*1000| date: 'yyyy MMM dd HH:mm:ss' }}</td>
+      <td>{{val['duration']*1000| date: 'HH:mm:ss'}}</td>
+      <td *ngIf="getTime(val['risetime']*1000)>getTime(places[place].sunrise)
+      && getTime(val['risetime']*1000)<getTime(places[place].sunset); else night"><i class="far fa-sun"></i></td>
+      <ng-template #night><td><i class="far fa-moon"></i></td></ng-template>
+    </tr>
+    </tbody>
+  </table>
+</div>
