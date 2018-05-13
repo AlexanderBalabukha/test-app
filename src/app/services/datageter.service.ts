@@ -4,15 +4,13 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs/index';
+import {Astronaut} from '../models/astronaut';
 
 @Injectable()
 export class DatageterService {
-  // url = 'http://api.fixer.io/latest?base=USD';
   urlUser = 'http://localhost:3000/api/';
   urlISS = 'http://api.open-notify.org/iss-pass.json';
   urlRise = 'https://api.sunrise-sunset.org/json';
-
-  // ?lat=+e.lat+'&lng='+e.lon+'&formatted=0&callback=?'
 
   constructor(private http: HttpClient) {
   }
@@ -31,8 +29,8 @@ export class DatageterService {
     return this.http.get(this.urlISS, options).toPromise();
   }
 
-  getData(): Observable<any> {
-    return this.http.get(this.urlUser);
+  getAstronauts(): Observable<Astronaut[]> {
+    return this.http.get<Astronaut[]>(this.urlUser + 'astronauts');
   }
 
   getUsers(): Observable<any> {

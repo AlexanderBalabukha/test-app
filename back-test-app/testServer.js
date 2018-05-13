@@ -1,13 +1,31 @@
 const http=require('http');
 const app=require('express')();
+const request=require('request');
 const bodyParser=require('body-parser');
 app.use(bodyParser.json());
 const mongoose=require('mongoose');
 Users= require('./usermodel');
-mongoose.connect('mongodb://admin:1@ds149763.mlab.com:49763/beersheva2017');
+Astronaut = require('./astromodel');
+mongoose.connect('mongodb://testuser:testuser@ds219130.mlab.com:19130/sourcetest');
 // const db=mongoose.connection;
 http.createServer(app).listen(3000);
 console.log('Server listen 3000');
+request('http://api.open-notify.org/astros.json', function(err, response, body){
+  let people=JSON.parse(body).people;
+  for(val in people){
+    Object.assign(people[val],{'weight': getRandom(50,80)});
+    Object.assign(people[val],{'age': getRandom(30,60)});
+    Astronaut.addAustronaut(people[val],function (error,man) {
+      if(error)
+        throw error;
+      console.log(man);
+    });
+  }
+});
+function getRandom(min, max){
+  return min+Math.floor(Math.random()*(max-min+1));
+};
+
 app.use('*',function(req,res,next){
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -16,10 +34,17 @@ app.use('*',function(req,res,next){
     next();
 });
 app.get('/admin',function(req,res){
-    console.log(req.query);
     res.write('Hello admin '+req.query.name+' age '+req.query.age);
     res.end();
 });
+app.get('/api/astronauts',function (req,res) {
+      Astronaut.getAustronauts(function (error,peoples) {
+        if(error)
+          throw error;
+        res.json(peoples);
+      });
+  });
+
 app.get('/api/users',function (req,res) {
     Users.getUsers(function (error,users) {
         if(error)

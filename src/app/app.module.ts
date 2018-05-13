@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { MatTableModule, MatSortModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { ClockComponent } from './components/clock/clock.component';
@@ -30,7 +32,10 @@ import { MenuComponent } from './components/menu/menu.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    MaterializeModule
+    MaterializeModule,
+    MatTableModule,
+    MatSortModule,
+    BrowserAnimationsModule
   ],
   providers: [DatageterService],
   bootstrap: [AppComponent]
