@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatageterService } from '../../services/datageter.service';
-import { MatSort, MatTableDataSource } from '@angular/material'
+import { MatSort, MatTable, MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -18,6 +18,7 @@ export class AstronautsComponent implements OnInit {
   }
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('myTable') myTable: MatTable<any>;
 
   ngOnInit() {
     this.dataGet.getAstronauts().subscribe(res => {
@@ -26,6 +27,7 @@ export class AstronautsComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.filterPredicate = this.astroPredicat;
       this.data[0].leader = 'leader';
+      console.log(this.dataSource);
     }, err => {
       this.data = err;
       console.log(this.data);
@@ -37,24 +39,38 @@ export class AstronautsComponent implements OnInit {
   }
 
   astroPredicat = function (i, filter) {
-    if (filter.name && !i.name.includes(filter.name)) return false;
+    if (filter.name.toLowerCase() && !(i.name).toLowerCase().includes(filter.name.toLowerCase())) return false;
     if (filter.weight && !i.weight.includes(filter.weight)) return false;
     if (filter.age && !i.age.includes(filter.age)) return false;
     return true;
   };
 
   update() {
-    for (let i = this.data.length - 1; i >= 0; i--) {
-      if (this.data[i].leader === 'leader') {
-        this.data[i].leader = undefined;
-        if (i !== this.data.length - 1) {
-          this.data[i + 1].leader = 'leader';
-          break;
-        } else {
-          this.data[0].leader = 'leader';
+    if (this.dataSource.data.length > 1) {
+      let del_index;
+      for (let i = 0; i < this.dataSource.data.length; i++) {
+        if (this.dataSource.data[i].leader === 'leader') {
+          this.dataSource.data[i].leader = undefined;
+          if (i + 1 < this.dataSource.data.length) {
+            del_index = i + 1;
+          } else {
+            del_index = 0;
+          }
+          if (i + 2 < this.dataSource.data.length) {
+            this.dataSource.data[i + 2].leader = 'leader';
+          } else if (i + 1 < this.dataSource.data.length) {
+            this.dataSource.data[0].leader = 'leader';
+          } else {
+            this.dataSource.data[1].leader = 'leader';
+          }
           break;
         }
       }
+
+      this.dataGet.delAstronauts(this.dataSource.data[del_index]);
+      this.dataSource.data.splice(del_index, 1);
+      // this.myTable.renderRows();
+      this.dataSource.data = this.dataSource.data.slice();
     }
   }
 }

@@ -10,18 +10,6 @@ mongoose.connect('mongodb://testuser:testuser@ds219130.mlab.com:19130/sourcetest
 // const db=mongoose.connection;
 http.createServer(app).listen(3000);
 console.log('Server listen 3000');
-request('http://api.open-notify.org/astros.json', function(err, response, body){
-  let people=JSON.parse(body).people;
-  for(val in people){
-    Object.assign(people[val],{'weight': getRandom(50,80)});
-    Object.assign(people[val],{'age': getRandom(30,60)});
-    Astronaut.addAustronaut(people[val],function (error,man) {
-      if(error)
-        throw error;
-      console.log(man);
-    });
-  }
-});
 function getRandom(min, max){
   return min+Math.floor(Math.random()*(max-min+1));
 };
@@ -33,17 +21,32 @@ app.use('*',function(req,res,next){
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
-app.get('/admin',function(req,res){
-    res.write('Hello admin '+req.query.name+' age '+req.query.age);
-    res.end();
-});
 app.get('/api/astronauts',function (req,res) {
+  request('http://api.open-notify.org/astros.json', function(err, response, body){
+    let people=JSON.parse(body).people;
+    for(val in people){
+      Object.assign(people[val],{'weight': getRandom(50,80)});
+      Object.assign(people[val],{'age': getRandom(30,60)});
+      Astronaut.addAustronaut(people[val],function (error,man) {
+        if(error)
+          throw error;
+      });
+    }
+  });
       Astronaut.getAustronauts(function (error,peoples) {
         if(error)
           throw error;
         res.json(peoples);
       });
   });
+app.delete('/api/astronauts/:_id',function (req,res) {
+  Astronaut.deleteAustronaut(req.params._id,function (error,_) {
+    if(error)
+      throw error;
+    res.write('Ok');
+    res.end();
+  });
+});
 
 app.get('/api/users',function (req,res) {
     Users.getUsers(function (error,users) {

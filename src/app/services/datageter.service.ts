@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs/index';
-import {Astronaut} from '../models/astronaut';
+import { Astronaut } from '../models/astronaut';
 
 @Injectable()
 export class DatageterService {
@@ -29,8 +29,12 @@ export class DatageterService {
     return this.http.get(this.urlISS, options).toPromise();
   }
 
-  getAstronauts(): Observable<Astronaut[]> {
+  getAstronauts(): Observable<any> {
     return this.http.get<Astronaut[]>(this.urlUser + 'astronauts');
+  }
+
+  delAstronauts(data): Promise<any> {
+    return this.http.delete(this.urlUser + 'astronauts/' + data._id, {responseType: 'text'}).toPromise();
   }
 
   getUsers(): Observable<any> {
